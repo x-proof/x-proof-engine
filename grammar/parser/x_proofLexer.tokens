@@ -1,0 +1,12 @@
+Identifier=1
+Parameters=2
+Rule=3
+Definition=4
+DefinitionClause=5
+Axiom=6
+AxiomClause=7
+Theorem=8
+TheoremClause=9
+BlockComment=10
+LineComment=11
+Clause=12
