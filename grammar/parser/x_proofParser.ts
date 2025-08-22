@@ -19,21 +19,25 @@ type int = number;
 export default class x_proofParser extends Parser {
 	public static readonly Identifier = 1;
 	public static readonly Parameters = 2;
-	public static readonly Rule = 3;
-	public static readonly Definition = 4;
-	public static readonly DefinitionClause = 5;
-	public static readonly Axiom = 6;
-	public static readonly AxiomClause = 7;
-	public static readonly Theorem = 8;
-	public static readonly TheoremClause = 9;
-	public static readonly BlockComment = 10;
-	public static readonly LineComment = 11;
-	public static readonly Clause = 12;
+	public static readonly UseRule = 3;
+	public static readonly UseRules = 4;
+	public static readonly Rule = 5;
+	public static readonly Definition = 6;
+	public static readonly DefinitionClause = 7;
+	public static readonly Axiom = 8;
+	public static readonly AxiomClause = 9;
+	public static readonly Theorem = 10;
+	public static readonly TheoremClause = 11;
+	public static readonly BlockComment = 12;
+	public static readonly LineComment = 13;
+	public static readonly Clause = 14;
 	public static override readonly EOF = Token.EOF;
 	public static readonly RULE_x_proof = 0;
 	public static readonly literalNames: (string | null)[] = [  ];
 	public static readonly symbolicNames: (string | null)[] = [ null, "Identifier", 
                                                              "Parameters", 
+                                                             "UseRule", 
+                                                             "UseRules", 
                                                              "Rule", "Definition", 
                                                              "DefinitionClause", 
                                                              "Axiom", "AxiomClause", 
@@ -81,7 +85,7 @@ export default class x_proofParser extends Parser {
 				this.state = 5;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===12);
+			} while (_la===14);
 			}
 		}
 		catch (re) {
@@ -99,8 +103,8 @@ export default class x_proofParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,12,8,2,0,7,0,1,0,
-	4,0,4,8,0,11,0,12,0,5,1,0,0,0,1,0,0,0,7,0,3,1,0,0,0,2,4,5,12,0,0,3,2,1,
+	public static readonly _serializedATN: number[] = [4,1,14,8,2,0,7,0,1,0,
+	4,0,4,8,0,11,0,12,0,5,1,0,0,0,1,0,0,0,7,0,3,1,0,0,0,2,4,5,14,0,0,3,2,1,
 	0,0,0,4,5,1,0,0,0,5,3,1,0,0,0,5,6,1,0,0,0,6,1,1,0,0,0,1,5];
 
 	private static __ATN: ATN;

@@ -20,8 +20,22 @@ Parameters
     : Identifier (',' Identifier)*
     ;
 
+UseRule
+    : Identifier '(' UseRules? ')'
+    ;
+
+UseRules
+    : UseRule (',' UseRule)*
+    ;
+
+RuleBody
+    : UseRule
+    | PatternMatching
+    | Alias
+    ;
+
 Rule
-    : Identifier '(' Parameters? ')' ';'
+    : RuleBody ';'
     ;
 
 Definition
