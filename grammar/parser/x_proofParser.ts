@@ -19,25 +19,39 @@ type int = number;
 export default class x_proofParser extends Parser {
 	public static readonly Identifier = 1;
 	public static readonly Parameters = 2;
-	public static readonly UseRule = 3;
-	public static readonly UseRules = 4;
-	public static readonly Rule = 5;
-	public static readonly Definition = 6;
-	public static readonly DefinitionClause = 7;
-	public static readonly Axiom = 8;
-	public static readonly AxiomClause = 9;
-	public static readonly Theorem = 10;
-	public static readonly TheoremClause = 11;
-	public static readonly BlockComment = 12;
-	public static readonly LineComment = 13;
-	public static readonly Clause = 14;
+	public static readonly Object = 3;
+	public static readonly Objects = 4;
+	public static readonly AliasBody = 5;
+	public static readonly Alias = 6;
+	public static readonly StandalonePatternMatchingBody = 7;
+	public static readonly StandalonePatternMatching = 8;
+	public static readonly MultiplePatternMatchingBody = 9;
+	public static readonly MultiplePatternMatching = 10;
+	public static readonly PatternMatching = 11;
+	public static readonly RuleBody = 12;
+	public static readonly Rule = 13;
+	public static readonly Definition = 14;
+	public static readonly DefinitionClause = 15;
+	public static readonly Axiom = 16;
+	public static readonly AxiomClause = 17;
+	public static readonly Theorem = 18;
+	public static readonly TheoremClause = 19;
+	public static readonly BlockComment = 20;
+	public static readonly LineComment = 21;
+	public static readonly Clause = 22;
 	public static override readonly EOF = Token.EOF;
 	public static readonly RULE_x_proof = 0;
 	public static readonly literalNames: (string | null)[] = [  ];
 	public static readonly symbolicNames: (string | null)[] = [ null, "Identifier", 
                                                              "Parameters", 
-                                                             "UseRule", 
-                                                             "UseRules", 
+                                                             "Object", "Objects", 
+                                                             "AliasBody", 
+                                                             "Alias", "StandalonePatternMatchingBody", 
+                                                             "StandalonePatternMatching", 
+                                                             "MultiplePatternMatchingBody", 
+                                                             "MultiplePatternMatching", 
+                                                             "PatternMatching", 
+                                                             "RuleBody", 
                                                              "Rule", "Definition", 
                                                              "DefinitionClause", 
                                                              "Axiom", "AxiomClause", 
@@ -85,7 +99,7 @@ export default class x_proofParser extends Parser {
 				this.state = 5;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===14);
+			} while (_la===22);
 			}
 		}
 		catch (re) {
@@ -103,8 +117,8 @@ export default class x_proofParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,14,8,2,0,7,0,1,0,
-	4,0,4,8,0,11,0,12,0,5,1,0,0,0,1,0,0,0,7,0,3,1,0,0,0,2,4,5,14,0,0,3,2,1,
+	public static readonly _serializedATN: number[] = [4,1,22,8,2,0,7,0,1,0,
+	4,0,4,8,0,11,0,12,0,5,1,0,0,0,1,0,0,0,7,0,3,1,0,0,0,2,4,5,22,0,0,3,2,1,
 	0,0,0,4,5,1,0,0,0,5,3,1,0,0,0,5,6,1,0,0,0,6,1,1,0,0,0,1,5];
 
 	private static __ATN: ATN;

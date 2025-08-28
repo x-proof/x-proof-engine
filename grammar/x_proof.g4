@@ -20,16 +20,45 @@ Parameters
     : Identifier (',' Identifier)*
     ;
 
-UseRule
-    : Identifier '(' UseRules? ')'
+Object
+    : Identifier ('(' Objects? ')')?
     ;
 
-UseRules
-    : UseRule (',' UseRule)*
+Objects
+    : Object (',' Object)*
+    ;
+
+AliasBody
+    : Identifier '=' Object
+    ;
+
+Alias
+    : 'alias' AliasBody (',' AliasBody)* ';'
+    ;
+
+StandalonePatternMatchingBody
+    : Object '=' Object
+    ;
+
+StandalonePatternMatching
+    : 'match' StandalonePatternMatchingBody (',' StandalonePatternMatching)* ';'
+    ;
+
+MultiplePatternMatchingBody
+    : (Object | 'default') '=>' '{' Rule* '}' ';'
+    ;
+
+MultiplePatternMatching
+    : 'match' '(' Object ')' '{' MultiplePatternMatchingBody* '}' ';'
+    ;
+
+PatternMatching
+    : StandalonePatternMatching
+    | MultiplePatternMatching
     ;
 
 RuleBody
-    : UseRule
+    : Object
     | PatternMatching
     | Alias
     ;
