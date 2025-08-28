@@ -12,83 +12,91 @@ fragment LeadingChars
     : [@#$]
     ;
 
-Identifier
+IDENTIFIER
     : (LeadingChars | Nondigit) (Digit | Nondigit)*
     ;
 
-Parameters
-    : Identifier (',' Identifier)*
+parameters
+    : IDENTIFIER (',' IDENTIFIER)*
     ;
 
-Object
-    : Identifier ('(' Objects? ')')?
+object
+    : IDENTIFIER ('(' objects? ')')?
     ;
 
-Objects
-    : Object (',' Object)*
+objects
+    : object (',' object)*
     ;
 
-AliasBody
-    : Identifier '=' Object
+aliasBody
+    : IDENTIFIER '=' object
     ;
 
-Alias
-    : 'alias' AliasBody (',' AliasBody)* ';'
+alias
+    : 'alias' aliasBody (',' aliasBody)* ';'
     ;
 
-StandalonePatternMatchingBody
-    : Object '=' Object
+standalonePatternMatchingBody
+    : object '=' object
     ;
 
-StandalonePatternMatching
-    : 'match' StandalonePatternMatchingBody (',' StandalonePatternMatching)* ';'
+standalonePatternMatching
+    : 'match' standalonePatternMatchingBody (',' standalonePatternMatching)* ';'
     ;
 
-MultiplePatternMatchingBody
-    : (Object | 'default') '=>' '{' Rule* '}' ';'
+multiplePatternMatchingBody
+    : (object | 'default') '=>' '{' rule* '}' ';'
     ;
 
-MultiplePatternMatching
-    : 'match' '(' Object ')' '{' MultiplePatternMatchingBody* '}' ';'
+multiplePatternMatching
+    : 'match' '(' object ')' '{' multiplePatternMatchingBody* '}' ';'
     ;
 
-PatternMatching
-    : StandalonePatternMatching
-    | MultiplePatternMatching
+patternMatching
+    : standalonePatternMatching
+    | multiplePatternMatching
     ;
 
-RuleBody
-    : Object
-    | PatternMatching
-    | Alias
+ruleBody
+    : object
+    | patternMatching
+    | alias
     ;
 
-Rule
-    : RuleBody ';'
+rule
+    : ruleBody ';'
     ;
 
-Definition
-    : Identifier ('(' Parameters? ')' ('conform' '{' Rule* '}')? )?
+definition
+    : IDENTIFIER ('(' parameters? ')' ('conform' '{' rule* '}')? )?
     ;
 
-DefinitionClause
-    : 'define' Definition (',' Definition)* ';'
+definitionClause
+    : 'define' definition (',' definition)* ';'
     ;
 
-Axiom
-    : Identifier '(' Parameters? ')' ('premise' '{' Rule* '}')? 'conclusion' '{' Rule* '}'
+axiom
+    : IDENTIFIER '(' parameters? ')' ('premise' '{' rule* '}')? 'conclusion' '{' rule* '}'
     ;
 
-AxiomClause
-    : 'axiom' Axiom (',' Axiom)* ';'
+axiomClause
+    : 'axiom' axiom (',' axiom)* ';'
     ;
 
-Theorem
-    : Identifier '(' Parameters? ')' ('premise' '{' Rule* '}')? 'conclusion' '{' Rule* '}' 'proof' '{' Rule* '}'
+theorem
+    : IDENTIFIER '(' parameters? ')' ('premise' '{' rule* '}')? 'conclusion' '{' rule* '}' 'proof' '{' rule* '}'
     ;
 
-TheoremClause
-    : 'theorem' Theorem (',' Theorem)* ';'
+theoremClause
+    : 'theorem' theorem (',' theorem)* ';'
+    ;
+
+Whitespace
+    : [ \t]+ -> channel(HIDDEN)
+    ;
+
+Newline
+    : ('\r' '\n'? | '\n') -> channel(HIDDEN)
     ;
 
 BlockComment
@@ -99,12 +107,12 @@ LineComment
     : '//' ~[\r\n]* -> channel(HIDDEN)
     ;
 
-Clause
-    : DefinitionClause
-    | AxiomClause
-    | TheoremClause
+clause
+    : definitionClause
+    | axiomClause
+    | theoremClause
     ;
 
 x_proof
-    : Clause+
+    : clause+
     ;
