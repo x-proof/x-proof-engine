@@ -1,0 +1,140 @@
+define R;
+
+define Set;
+define is(x, y);
+
+axiom is(R, Set);
+
+define in(x, y);
+
+define eq(x, y) conform {
+    in(x, R);
+    in(y, R);
+};
+
+axiom eq_reflexive(x) premise {
+    in(x, R);
+} conclusion {
+    eq(x, x);
+};
+
+axiom eq_symmetric(x, y) premise {
+    in(x, R);
+    in(y, R);
+    eq(x, y);
+} conclusion {
+    eq(y, x);
+};
+
+axiom eq_transitive(x, y, z) premise {
+    in(x, R);
+    in(y, R);
+    in(z, R);
+    eq(x, y);
+    eq(y, z);
+} conclusion {
+    eq(x, z);
+};
+
+define add(x, y) conform {
+    in(x, R);
+    in(y, R);
+}
+
+axiom add_closed(x, y) premise {
+    in(x, R);
+    in(y, R);
+} conclusion {
+    in(add(x, y), R);
+};
+
+axiom add_commutative(x, y) premise {
+    in(x, R);
+    in(y, R);
+} conclusion {
+    eq(add(x, y), add(y, x));
+};
+
+axiom add_associative(x, y, z) premise {
+    in(x, R);
+    in(y, R);
+    in(z, R);
+} conclusion {
+    eq(add(add(x, y), z), add(x, add(y, z)));
+};
+
+define zero;
+
+axiom in(zero, R);
+
+axiom add_zero(x) premise {
+    in(x, R);
+} conclusion {
+    eq(add(x, zero), x);
+};
+
+theorem zero_is_identity() conclusion {
+    eq(add(zero, zero), zero);
+} proof {
+    add_zero(zero); // implies eq(add(zero, zero), zero)
+};
+
+theorem zero_is_additive_identity(x) conclusion {
+    eq(add(x, zero), x);
+    eq(add(zero, x), x);
+} proof {
+    add_zero(x); // implies eq(add(x, zero), x)
+    add_commutative(x, zero); // implies eq(add(x, zero), add(zero, x))
+    eq_transitive(add(zero, x), add(x, zero), x); // implies eq(add(zero, x), x)
+};
+
+define negate(x) conform {
+    in(x, R);
+};
+
+axiom negate_definition(x) premise {
+    in(x, R);
+} conclusion {
+    eq(add(x, negate(x)), zero);
+};
+
+theorem add_inverse(x) premise {
+    in(x, R);
+} conclusion {
+    eq(add(x, negate(x)), zero);
+    eq(add(negate(x), x), zero);
+} proof {
+    negate_definition(x); // implies eq(add(x, negate(x)), zero)
+    add_commutative(x, negate(x)); // implies eq(add(x, negate(x)), add(negate(x), x))
+    eq_transitive(add(negate(x), x), add(x, negate(x)), zero); // implies eq(add(negate(x), x), zero)
+};
+
+define Group;
+
+axiom check_group(s, op, zero, inv) premise {
+    is(s, Set);
+    // we haven't implemented the strict type regulations yet
+    // but it's implementable
+    
+    forall(s, lambda(x, eq(op(x, inv(x)), zero))); // inverse
+    forall(s, lambda(x, eq(op(inv(x), x), zero))); // inverse
+    forall(s, lambda(x, eq(op(x, zero), x))); // identity
+    forall(s, lambda(x, eq(op(zero, x), x))); // identity
+    forall(s, lambda(x, forall(s, lambda(y, forall(s, lambda(z, eq(op(x, op(y, z)), op(op(x, y), z)))))))); // associativity
+} conclusion {
+    is(s, Group);
+};
+
+theorem R_is_group() conclusion {
+    is(R, Group);
+} proof {
+    from_prop_to_forall(zero_is_additive_identity);
+    /*
+       About from_prop_to_forall function
+       it's obivously a bad design and should be replaced with a better one
+       I'll write a better one to explain the problem
+     */
+    from_prop_to_forall(add_inverse);
+    from_prop_to_forall(add_associative);
+    check_group(R, add, zero, negate);
+};
