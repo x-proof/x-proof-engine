@@ -1,0 +1,102 @@
+define bool;
+define true, false;
+define in(a, s);
+
+axiom in(true, bool);
+axiom in(false, bool);
+
+define and(x, y), or(x, y), not(x);
+
+define eq(x, y) conform {
+    in(x, bool);
+    in(y, bool);
+};
+
+axiom eq_reflexive(x) premise {
+    in(x, bool);
+} conclusion {
+    eq(x, x);
+};
+
+axiom eq_symmetric(x, y) premise {
+    in(x, bool);
+    in(y, bool);
+    eq(x, y);
+} conclusion {
+    eq(y, x);
+};
+
+axiom eq_transitive(x, y, z) premise {
+    in(x, bool);
+    in(y, bool);
+    in(z, bool);
+    eq(x, y);
+    eq(y, z);
+} conclusion {
+    eq(x, z);
+};
+
+axiom eq(and(true, true), true);
+axiom eq(and(true, false), false);
+axiom eq(and(false, true), false);
+axiom eq(and(false, false), false);
+
+axiom eq(or(true, true), true);
+axiom eq(or(true, false), true);
+axiom eq(or(false, true), true);
+axiom eq(or(false, false), false);
+
+axiom eq(not(true), false);
+axiom eq(not(false), true);
+
+define verify(x), negate_proposition(x);
+
+axiom proved(x) premise {
+    x;
+} conclusion {
+    eq(verify(x), true);
+};
+
+axiom falsify(x) premise {
+    negate_proposition(x);
+} conclusion {
+    eq(verify(x), false);
+};
+
+define imply(x, y), forall(s, p), exist(s, p);
+
+axiom imply_reflexive(x) conclusion {
+    imply(x, x);
+};
+
+axiom imply_transitive(x, y, z) premise {
+    imply(x, y);
+    imply(y, z);
+} conclusion {
+    imply(x, z);
+};
+
+axiom imply_modus_ponens(x, y) premise {
+    x;
+    imply(x, y);
+} conclusion {
+    y;
+};
+
+axiom imply_modus_tollens(x, y) premise {
+    negate_proposition(y);
+    imply(x, y);
+} conclusion {
+    negate_proposition(x);
+};
+
+define equiv(x, y);
+
+axiom equiv_definition(x, y) conclusion {
+    imply(x, y);
+    imply(y, x);
+};
+
+axiom equiv_reflexive(x) conclusion {
+    equiv(x, x);
+};

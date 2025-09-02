@@ -39,7 +39,7 @@ axiom eq_transitive(x, y, z) premise {
 define add(x, y) conform {
     in(x, R);
     in(y, R);
-}
+};
 
 axiom add_closed(x, y) premise {
     in(x, R);

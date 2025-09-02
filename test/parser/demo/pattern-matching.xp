@@ -1,0 +1,75 @@
+define R;
+
+define sqr(x) conform {
+    in(x, R);
+};
+
+axiom R_sqr_in_R(a) premise {
+    match sqr(x) = a;
+    in(x, R);
+} conclusion {
+    in(a, R);
+};
+
+axiom R_sqr_sqr_in_R(a) premise {
+    match sqr(sqr(x)) = a;
+    in(x, R);
+} conclusion {
+    in(a, R);
+};
+
+theorem foo(a) premise {
+    match (a) {
+        sqr(sqr(x)) => {
+            in(x, R);
+        };
+        sqr(x) => {
+            in(x, R);
+        };
+        default => {
+            in(a, R);
+        };
+    };
+} conclusion {
+    in(a, R);
+} proof {
+    match (a) {
+        sqr(sqr(x)) => {
+            R_sqr_sqr_in_R(a);
+        };
+        sqr(x) => {
+            R_sqr_in_R(a);
+        };
+        default => {
+            in(a, R);
+        };
+    };
+};
+
+theorem R_sqr_any_times_in_R(a) premise {
+    match (a) {
+        sqr(x) => {
+            R_sqr_any_times_in_R(x);
+        };
+        default => {
+            in(a, R);
+        };
+    };
+} conclusion {
+    in(a, R);
+} proof {
+    match (a) {
+        sqr(x) => {
+            R_sqr_any_times_in_R(x);
+            R_sqr_in_R(a);
+            in(a, R);
+        };
+        default => {
+            in(a, R);
+        };
+    };
+};
+
+in(x, R);
+
+R_sqr_any_times_in_R(sqr(sqr(x)));

@@ -13,7 +13,6 @@ import { StandalonePatternMatchingContext } from "./x_proofParser.js";
 import { MultiplePatternMatchingBodyContext } from "./x_proofParser.js";
 import { MultiplePatternMatchingContext } from "./x_proofParser.js";
 import { PatternMatchingContext } from "./x_proofParser.js";
-import { RuleBodyContext } from "./x_proofParser.js";
 import { RuleContext } from "./x_proofParser.js";
 import { DefinitionContext } from "./x_proofParser.js";
 import { DefinitionClauseContext } from "./x_proofParser.js";
@@ -93,12 +92,6 @@ export default class x_proofVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitPatternMatching?: (ctx: PatternMatchingContext) => Result;
-	/**
-	 * Visit a parse tree produced by `x_proofParser.ruleBody`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitRuleBody?: (ctx: RuleBodyContext) => Result;
 	/**
 	 * Visit a parse tree produced by `x_proofParser.rule`.
 	 * @param ctx the parse tree

@@ -57,14 +57,10 @@ patternMatching
     | multiplePatternMatching
     ;
 
-ruleBody
-    : object
+rule
+    : object ';'
     | patternMatching
     | alias
-    ;
-
-rule
-    : ruleBody ';'
     ;
 
 definition
@@ -76,7 +72,8 @@ definitionClause
     ;
 
 axiom
-    : IDENTIFIER '(' parameters? ')' ('premise' '{' rule* '}')? 'conclusion' '{' rule* '}'
+    : object
+    | IDENTIFIER '(' parameters? ')' ('premise' '{' rule* '}')? ('conclusion' '{' rule* '}')
     ;
 
 axiomClause
