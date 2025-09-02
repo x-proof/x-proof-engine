@@ -11,7 +11,8 @@ import {
 	Token, TokenStream,
 	Interval, IntervalSet
 } from 'antlr4';
-import x_proofListener from "./x_proofListener.js";
+import x_proofVisitor from "./x_proofVisitor.js";
+
 // for running tests with parameters, TODO: discuss strategy for typed parameters in CI
 // eslint-disable-next-line no-unused-vars
 type int = number;
@@ -1225,14 +1226,12 @@ export class ParametersContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_parameters;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterParameters) {
-	 		listener.enterParameters(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitParameters) {
-	 		listener.exitParameters(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitParameters) {
+			return visitor.visitParameters(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1252,14 +1251,12 @@ export class ObjectContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_object;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterObject) {
-	 		listener.enterObject(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitObject) {
-	 		listener.exitObject(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitObject) {
+			return visitor.visitObject(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1279,14 +1276,12 @@ export class ObjectsContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_objects;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterObjects) {
-	 		listener.enterObjects(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitObjects) {
-	 		listener.exitObjects(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitObjects) {
+			return visitor.visitObjects(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1306,14 +1301,12 @@ export class AliasBodyContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_aliasBody;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterAliasBody) {
-	 		listener.enterAliasBody(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitAliasBody) {
-	 		listener.exitAliasBody(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitAliasBody) {
+			return visitor.visitAliasBody(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1333,14 +1326,12 @@ export class AliasContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_alias;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterAlias) {
-	 		listener.enterAlias(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitAlias) {
-	 		listener.exitAlias(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitAlias) {
+			return visitor.visitAlias(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1360,14 +1351,12 @@ export class StandalonePatternMatchingBodyContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_standalonePatternMatchingBody;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterStandalonePatternMatchingBody) {
-	 		listener.enterStandalonePatternMatchingBody(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitStandalonePatternMatchingBody) {
-	 		listener.exitStandalonePatternMatchingBody(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitStandalonePatternMatchingBody) {
+			return visitor.visitStandalonePatternMatchingBody(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1390,14 +1379,12 @@ export class StandalonePatternMatchingContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_standalonePatternMatching;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterStandalonePatternMatching) {
-	 		listener.enterStandalonePatternMatching(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitStandalonePatternMatching) {
-	 		listener.exitStandalonePatternMatching(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitStandalonePatternMatching) {
+			return visitor.visitStandalonePatternMatching(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1420,14 +1407,12 @@ export class MultiplePatternMatchingBodyContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_multiplePatternMatchingBody;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterMultiplePatternMatchingBody) {
-	 		listener.enterMultiplePatternMatchingBody(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitMultiplePatternMatchingBody) {
-	 		listener.exitMultiplePatternMatchingBody(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitMultiplePatternMatchingBody) {
+			return visitor.visitMultiplePatternMatchingBody(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1450,14 +1435,12 @@ export class MultiplePatternMatchingContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_multiplePatternMatching;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterMultiplePatternMatching) {
-	 		listener.enterMultiplePatternMatching(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitMultiplePatternMatching) {
-	 		listener.exitMultiplePatternMatching(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitMultiplePatternMatching) {
+			return visitor.visitMultiplePatternMatching(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1477,14 +1460,12 @@ export class PatternMatchingContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_patternMatching;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterPatternMatching) {
-	 		listener.enterPatternMatching(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitPatternMatching) {
-	 		listener.exitPatternMatching(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitPatternMatching) {
+			return visitor.visitPatternMatching(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1507,14 +1488,12 @@ export class RuleBodyContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_ruleBody;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterRuleBody) {
-	 		listener.enterRuleBody(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitRuleBody) {
-	 		listener.exitRuleBody(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitRuleBody) {
+			return visitor.visitRuleBody(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1531,14 +1510,12 @@ export class RuleContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_rule;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterRule) {
-	 		listener.enterRule(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitRule) {
-	 		listener.exitRule(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitRule) {
+			return visitor.visitRule(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1564,14 +1541,12 @@ export class DefinitionContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_definition;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterDefinition) {
-	 		listener.enterDefinition(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitDefinition) {
-	 		listener.exitDefinition(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitDefinition) {
+			return visitor.visitDefinition(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1591,14 +1566,12 @@ export class DefinitionClauseContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_definitionClause;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterDefinitionClause) {
-	 		listener.enterDefinitionClause(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitDefinitionClause) {
-	 		listener.exitDefinitionClause(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitDefinitionClause) {
+			return visitor.visitDefinitionClause(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1624,14 +1597,12 @@ export class AxiomContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_axiom;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterAxiom) {
-	 		listener.enterAxiom(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitAxiom) {
-	 		listener.exitAxiom(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitAxiom) {
+			return visitor.visitAxiom(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1651,14 +1622,12 @@ export class AxiomClauseContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_axiomClause;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterAxiomClause) {
-	 		listener.enterAxiomClause(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitAxiomClause) {
-	 		listener.exitAxiomClause(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitAxiomClause) {
+			return visitor.visitAxiomClause(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1684,14 +1653,12 @@ export class TheoremContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_theorem;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterTheorem) {
-	 		listener.enterTheorem(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitTheorem) {
-	 		listener.exitTheorem(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitTheorem) {
+			return visitor.visitTheorem(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1711,14 +1678,12 @@ export class TheoremClauseContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_theoremClause;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterTheoremClause) {
-	 		listener.enterTheoremClause(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitTheoremClause) {
-	 		listener.exitTheoremClause(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitTheoremClause) {
+			return visitor.visitTheoremClause(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1741,14 +1706,12 @@ export class ClauseContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_clause;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterClause) {
-	 		listener.enterClause(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitClause) {
-	 		listener.exitClause(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitClause) {
+			return visitor.visitClause(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
@@ -1768,14 +1731,12 @@ export class X_proofContext extends ParserRuleContext {
     public get ruleIndex(): number {
     	return x_proofParser.RULE_x_proof;
 	}
-	public enterRule(listener: x_proofListener): void {
-	    if(listener.enterX_proof) {
-	 		listener.enterX_proof(this);
-		}
-	}
-	public exitRule(listener: x_proofListener): void {
-	    if(listener.exitX_proof) {
-	 		listener.exitX_proof(this);
+	// @Override
+	public accept<Result>(visitor: x_proofVisitor<Result>): Result {
+		if (visitor.visitX_proof) {
+			return visitor.visitX_proof(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
