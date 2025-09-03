@@ -1,1 +1,1 @@
-import './core/test';
+import { parse } from './core/test';
