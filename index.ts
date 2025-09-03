@@ -1,1 +1,1 @@
-import { parse } from './core/test';
+export { parse, parseToAst } from './core/test';
