@@ -14,6 +14,6 @@ Install antlr4 with `pip install antlr4-tools` or other ways you preferred. Refe
 
 ```bash
 cd core
-rm -rf parser
+rm parser/x_proof*
 antlr4 x_proof.g4 -o parser -Dlanguage=TypeScript -no-listener -visitor
 ```
