@@ -1,28 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { parse } from '../../core/test';
+import { parse } from '../core/test';
+import { getAllFilesRecursively } from './list_files';
 import fs from 'fs';
 import path from 'path';
-
-function getAllFilesRecursively(dirPath: string): string[] {
-  const results: string[] = [];
-  if (!fs.existsSync(dirPath)) {
-    return results;
-  }
-
-  const items = fs.readdirSync(dirPath);
-  for (const item of items) {
-    const fullPath = path.join(dirPath, item);
-    const stat = fs.statSync(fullPath);
-
-    if (stat.isDirectory()) {
-      results.push(...getAllFilesRecursively(fullPath));
-    } else if (stat.isFile()) {
-      results.push(fullPath);
-    }
-  }
-
-  return results;
-}
 
 describe('parse()', () => {
   const demoDir = path.resolve(__dirname, 'demo');
