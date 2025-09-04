@@ -148,7 +148,15 @@ class AstBuilder extends x_proofVisitor<any> {
 
 	override visitObject = (ctx: ObjectContext): Term => {
 		const name = ctx.IDENTIFIER().getText();
-		const args = ctx.objects() ? this.visitObjects(ctx.objects() as any) : [];
+		const args: Term[] = [];
+		// Support chained application: IDENTIFIER application*
+		const applications: any[] = (ctx as any).application_list ? (ctx as any).application_list() : [];
+		for (const app of applications) {
+			if (app.objects && app.objects()) {
+				const group = this.visitObjects(app.objects() as any);
+				args.push(...group);
+			}
+		}
 		return { name, args };
 	};
 }

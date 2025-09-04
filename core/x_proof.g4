@@ -21,7 +21,11 @@ parameters
     ;
 
 object
-    : IDENTIFIER ('(' objects? ')')?
+    : IDENTIFIER application*
+    ;
+
+application
+    : '(' objects? ')'
     ;
 
 objects

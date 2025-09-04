@@ -1,0 +1,6 @@
+define a, b;
+define lt(x, y);
+
+axiom lt(a, b);
+// is equal to
+axiom lt(a)(b);

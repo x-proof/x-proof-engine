@@ -5,6 +5,7 @@ import {ParseTreeVisitor} from 'antlr4';
 
 import { ParametersContext } from "./x_proofParser.js";
 import { ObjectContext } from "./x_proofParser.js";
+import { ApplicationContext } from "./x_proofParser.js";
 import { ObjectsContext } from "./x_proofParser.js";
 import { AliasBodyContext } from "./x_proofParser.js";
 import { AliasContext } from "./x_proofParser.js";
@@ -44,6 +45,12 @@ export default class x_proofVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitObject?: (ctx: ObjectContext) => Result;
+	/**
+	 * Visit a parse tree produced by `x_proofParser.application`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitApplication?: (ctx: ApplicationContext) => Result;
 	/**
 	 * Visit a parse tree produced by `x_proofParser.objects`.
 	 * @param ctx the parse tree
