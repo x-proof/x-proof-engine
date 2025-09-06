@@ -10,6 +10,7 @@ export type DefinitionClause = {
 };
 
 export type Definition = {
+	kind: 'definition';
 	name: string;
 	params: string[];
 	conformRules: Rule[];
@@ -20,15 +21,20 @@ export type AxiomClause = {
 	axioms: Axiom[];
 };
 
-export type Axiom =
-	| { kind: 'axiomObject'; object: Term }
-	| {
-		kind: 'axiomNamed';
-		name: string;
-		params: string[];
-		premiseRules: Rule[];
-		conclusionRules: Rule[];
-	};
+export type AxiomObject = {
+	kind: 'axiomObject';
+	object: Term;
+};
+
+export type AxiomNamed = {
+	kind: 'axiomNamed';
+	name: string;
+	params: string[];
+	premiseRules: Rule[];
+	conclusionRules: Rule[];
+};
+
+export type Axiom = AxiomObject | AxiomNamed;
 
 export type TheoremClause = {
 	kind: 'theoremClause';
@@ -36,6 +42,7 @@ export type TheoremClause = {
 };
 
 export type Theorem = {
+	kind: 'theorem';
 	name: string;
 	params: string[];
 	premiseRules: Rule[];
@@ -90,3 +97,9 @@ export type Term = {
 	name: string;
 	args: Term[];
 };
+
+export type ExecuteAtom =
+	| Definition
+	| AxiomObject
+	| AxiomNamed
+	| Theorem;

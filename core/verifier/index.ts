@@ -1,4 +1,4 @@
-import { Program } from "../ast";
+import { Clause, Definition, DefinitionClause, ExecuteAtom, Program, Rule, Term } from "../ast";
 
 type xpObject = {
     kind: "object",
@@ -29,6 +29,10 @@ class VerifyContext {
 
     find_syntax(name: string): xpFact | undefined {
         return this.syntax_table[name];
+    }
+
+    add_object(obj: xpObject): void {
+        this.fact.push(obj);
     }
 
     safe_add_alias(name: string, obj: xpObject): void {
@@ -92,8 +96,80 @@ class VerifyContextStack {
     }
 }
 
+function term_to_xpobject(term: Term): xpObject {
+    return {
+        kind: 'object',
+        name: term.name,
+        args: term.args.map(term_to_xpobject)
+    };
+}
+
+function pre_check(ctx_stack: VerifyContextStack, clause: ExecuteAtom): boolean {
+    if (ctx_stack.top() === undefined) {
+        return false;
+    }
+    switch (clause.kind) {
+        case 'definition': {
+            if (ctx_stack.top()!.find_syntax(clause.name)) {
+                return false;
+            }
+            return true;
+        }
+        case 'axiomObject': {
+            let exist_syntax = ctx_stack.top()!.find_syntax(clause.object.name);
+            if (exist_syntax && exist_syntax.kind === 'proved') {
+                return false;
+            }
+            return true;
+        }
+        case 'axiomNamed': {
+            let exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
+            if (exist_syntax && exist_syntax.kind === 'object') {
+                return false;
+            }
+            return true;
+        }
+        case 'theorem': {
+            let exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
+            if (exist_syntax && exist_syntax.kind === 'object') {
+                return false;
+            }
+            return true;
+        }
+    }
+}
+
+function take_effect(ctx_stack: VerifyContextStack, clause: ExecuteAtom): void {
+    // TODO
+}
+
 function verify(prog: Program): boolean {
     let ctx_stack = new VerifyContextStack();
-    
-    return false;
+    ctx_stack.push(new VerifyContext());
+
+    const exec_atoms: ExecuteAtom[] = prog.clauses.flatMap((clause: Clause): ExecuteAtom[] => {
+        switch (clause.kind) {
+            case 'definitionClause': {
+                return clause.definitions;
+            }
+            case 'axiomClause': {
+                return clause.axioms;
+            }
+            case 'theoremClause': {
+                return clause.theorems;
+            }
+        }
+    });
+    for (const exec_atom of exec_atoms) {
+        if (! pre_check(ctx_stack, exec_atom)) {
+            console.error(`Pre-check failed for clause ${exec_atom.kind}`);
+            return false;
+        }
+        take_effect(ctx_stack, exec_atom);
+    }
+    return true;
+}
+
+export {
+    verify
 }
