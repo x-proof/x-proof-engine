@@ -43,7 +43,7 @@ class AstBuilder extends x_proofVisitor<any> {
 		if (rules && rules.length > 0) {
 			conformRules = rules.map(r => this.visitRule(r as any));
 		}
-		return { name, params, conformRules };
+		return { kind: "definition", name, params, conformRules };
 	};
 
 	override visitAxiomClause = (ctx: AxiomClauseContext): AxiomClause => {
@@ -75,7 +75,7 @@ class AstBuilder extends x_proofVisitor<any> {
 		const name = ctx.IDENTIFIER().getText();
 		const params = ctx.parameters() ? this.visitParameters(ctx.parameters() as any) : [];
 		const allRules = (ctx.rule_list() as any[]).map(r => this.visitRule(r as any));
-		return { name, params, premiseRules: [], conclusionRules: allRules, proofRules: [] };
+		return { kind: "theorem", name, params, premiseRules: [], conclusionRules: allRules, proofRules: [] };
 	};
 
 	override visitRule = (ctx: any): Rule => {
