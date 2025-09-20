@@ -1,1 +1,1 @@
-export { parse, parseToAst } from './core/test';
+export { parse, parseToAst } from './test/parser';

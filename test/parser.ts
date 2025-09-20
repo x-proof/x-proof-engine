@@ -1,8 +1,8 @@
 import { CharStream, CommonTokenStream }  from 'antlr4';
-import MyGrammarLexer from './parser/x_proofLexer';
-import MyGrammarParser from './parser/x_proofParser';
-import { parseTreeToAst } from './ast/transform';
-import { Program } from './ast';
+import MyGrammarLexer from '../core/parser/x_proofLexer';
+import MyGrammarParser from '../core/parser/x_proofParser';
+import { parseTreeToAst } from '../core/ast/transform';
+import { Program } from '../core/ast';
 
 function parse(input: string) {
 	const chars = new CharStream(input);

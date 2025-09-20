@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { parseToAst } from '../core/test';
+import { parseToAst } from './parser';
 import { getAllFilesRecursively } from './list_files';
 import fs from 'fs';
 import path from 'path';
