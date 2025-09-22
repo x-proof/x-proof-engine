@@ -63,4 +63,4 @@ export function term_to_xpobject(term: Term): xpObject {
         name: term.name,
         args: term.args.map(term_to_xpobject)
     };
-} 
+}

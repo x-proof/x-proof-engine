@@ -79,21 +79,21 @@ function pre_check(ctx_stack: VerifyContextStack, clause: ExecuteAtom): boolean 
             return true;
         }
         case 'axiomObject': {
-            let exist_syntax = ctx_stack.top()!.find_syntax(clause.object.name);
+            const exist_syntax = ctx_stack.top()!.find_syntax(clause.object.name);
             if (exist_syntax && exist_syntax.kind === 'proved') {
                 return false;
             }
             return true;
         }
         case 'axiomNamed': {
-            let exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
+            const exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
             if (exist_syntax && exist_syntax.kind === 'object') {
                 return false;
             }
             return true;
         }
         case 'theorem': {
-            let exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
+            const exist_syntax = ctx_stack.top()!.find_syntax(clause.name);
             if (exist_syntax && exist_syntax.kind === 'object') {
                 return false;
             }
@@ -107,7 +107,7 @@ function take_effect(ctx_stack: VerifyContextStack, clause: ExecuteAtom): void {
 }
 
 function verify(prog: Program): boolean {
-    let ctx_stack = new VerifyContextStack();
+    const ctx_stack = new VerifyContextStack();
     ctx_stack.push(new VerifyContext());
 
     const exec_atoms: ExecuteAtom[] = prog.clauses.flatMap((clause: Clause): ExecuteAtom[] => {

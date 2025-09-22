@@ -41,7 +41,7 @@ class AstBuilder extends x_proofVisitor<any> {
 		let conformRules: Rule[] = [];
 		const rules = ctx.rule_list() as any[] | undefined;
 		if (rules && rules.length > 0) {
-			conformRules = rules.map(r => this.visitRule(r as any));
+			conformRules = rules.map(r => this.visitRule(r));
 		}
 		return { kind: "definition", name, params, conformRules };
 	};
@@ -58,10 +58,10 @@ class AstBuilder extends x_proofVisitor<any> {
 		const name = ctx.IDENTIFIER().getText();
 		const params = ctx.parameters() ? this.visitParameters(ctx.parameters() as any) : [];
 		const rules = ctx.rule_list() as any[] | undefined;
-		let premiseRules: Rule[] = [];
+		const premiseRules: Rule[] = [];
 		let conclusionRules: Rule[] = [];
 		if (rules && rules.length > 0) {
-			conclusionRules = rules.map(r => this.visitRule(r as any));
+			conclusionRules = rules.map(r => this.visitRule(r));
 		}
 		return { kind: 'axiomNamed', name, params, premiseRules, conclusionRules };
 	};
@@ -74,13 +74,13 @@ class AstBuilder extends x_proofVisitor<any> {
 	override visitTheorem = (ctx: TheoremContext): Theorem => {
 		const name = ctx.IDENTIFIER().getText();
 		const params = ctx.parameters() ? this.visitParameters(ctx.parameters() as any) : [];
-		const allRules = (ctx.rule_list() as any[]).map(r => this.visitRule(r as any));
+		const allRules = (ctx.rule_list() as any[]).map(r => this.visitRule(r));
 		return { kind: "theorem", name, params, premiseRules: [], conclusionRules: allRules, proofRules: [] };
 	};
 
 	override visitRule = (ctx: any): Rule => {
 		if (ctx.object()) {
-			return { kind: 'object', object: this.visitObject(ctx.object() as any) } as ObjectRule;
+			return { kind: 'object', object: this.visitObject(ctx.object()) } as ObjectRule;
 		}
 		if (ctx.patternMatching()) {
 			return this.visitPatternMatching(ctx.patternMatching());
@@ -127,7 +127,7 @@ class AstBuilder extends x_proofVisitor<any> {
 		const firstText: string | undefined = (ctx as any).children?.[0]?.getText?.();
 		const isDefault = firstText === 'default';
 		const pattern = isDefault ? null : this.visitObject(ctx.object() as any);
-		const rules = (ctx.rule_list() as any[]).map(r => this.visitRule(r as any));
+		const rules = (ctx.rule_list() as any[]).map(r => this.visitRule(r));
 		return { isDefault, pattern, rules };
 	};
 
@@ -153,7 +153,7 @@ class AstBuilder extends x_proofVisitor<any> {
 		const applications: any[] = (ctx as any).application_list ? (ctx as any).application_list() : [];
 		for (const app of applications) {
 			if (app.objects && app.objects()) {
-				const group = this.visitObjects(app.objects() as any);
+				const group = this.visitObjects(app.objects());
 				args.push(...group);
 			}
 		}
