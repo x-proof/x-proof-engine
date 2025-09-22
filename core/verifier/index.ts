@@ -1,19 +1,6 @@
-import { Clause, Definition, DefinitionClause, ExecuteAtom, Program, Rule, Term } from "../ast";
+import { Clause, Definition, DefinitionClause, ExecuteAtom, Program, Rule } from "../ast";
+import { xpObject, xpFact } from "./def";
 
-type xpObject = {
-    kind: "object",
-    name: string,
-    args: xpObject[]
-};
-
-type xpProved = {
-    kind: "proved",
-    premise: xpObject[],
-    conclusion: xpObject[]
-};
-
-type xpFact = xpObject | xpProved;
- 
 class VerifyContext {
     fact: xpObject[] = []
     alias: Record<string, xpObject> = {}
@@ -23,24 +10,12 @@ class VerifyContext {
         return this.fact.some(fact => match_object(obj, fact));
     }
 
-    find_alias(name: string): xpObject | undefined {
-        return this.alias[name];
-    }
-
     find_syntax(name: string): xpFact | undefined {
         return this.syntax_table[name];
     }
 
     add_object(obj: xpObject): void {
         this.fact.push(obj);
-    }
-
-    safe_add_alias(name: string, obj: xpObject): void {
-        if (name in this.alias) {
-            throw new Error(`Alias ${name} already exists`);
-        }
-        this.alias[name] = obj;
-        // TODO: need more robust error handling
     }
     
     safe_add_syntax(name: string, fact: xpFact): void {
@@ -86,22 +61,10 @@ class VerifyContextStack {
     match_object(obj: xpObject): boolean {
         return this.ctx.some(ctx => ctx.match_object(obj));
     }
-    
-    find_alias(name: string): xpObject | undefined {
-        return this.ctx.reverse().find(ctx => name in ctx.alias)?.alias[name];
-    }
 
     find_syntax(name: string): xpFact | undefined {
         return this.ctx.reverse().find(ctx => name in ctx.syntax_table)?.syntax_table[name];
     }
-}
-
-function term_to_xpobject(term: Term): xpObject {
-    return {
-        kind: 'object',
-        name: term.name,
-        args: term.args.map(term_to_xpobject)
-    };
 }
 
 function pre_check(ctx_stack: VerifyContextStack, clause: ExecuteAtom): boolean {
