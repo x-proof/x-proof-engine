@@ -14,47 +14,42 @@ export type xpProved = {
 
 export type xpFact = xpObject | xpProved;
  
-export function debug_xpObject(obj: xpObject, indent: number = 0): string {
-    const spaces = "  ".repeat(indent);
-    const argsStr = obj.args.length > 0 
-        ? `\n${spaces}  args: [\n${obj.args.map(arg => debug_xpObject(arg, indent + 2)).join(',\n')}\n${spaces}  ]`
-        : "  args: []";
-    return `${spaces}{\n${spaces}  kind: "${obj.kind}",\n${spaces}  name: "${obj.name}",${argsStr}\n${spaces}}`;
+export function xpObjectToString(obj: xpObject, indent: number = 0): string {
+    if (obj.args.length === 0) {
+        return obj.name;
+    }
+    const argsStr = obj.args.map(arg => xpObjectToString(arg, indent)).join(', ');
+    return `${obj.name}(${argsStr})`;
 }
 
-export function debug_xpProved(proved: xpProved, indent: number = 0): string {
-    const spaces = "  ".repeat(indent);
-    const premiseStr = proved.premise.length > 0 
-        ? `\n${spaces}  premise: [\n${proved.premise.map(obj => debug_xpObject(obj, indent + 2)).join(',\n')}\n${spaces}  ]`
-        : "  premise: []";
-    const conclusionStr = proved.conclusion.length > 0 
-        ? `\n${spaces}  conclusion: [\n${proved.conclusion.map(obj => debug_xpObject(obj, indent + 2)).join(',\n')}\n${spaces}  ]`
-        : "  conclusion: []";
-    return `${spaces}{\n${spaces}  kind: "${proved.kind}",${premiseStr},${conclusionStr}\n${spaces}}`;
+export function xpProvedToString(proved: xpProved, indent: number = 0): string {
+    const premiseStr = proved.premise.map(obj => xpObjectToString(obj, indent)).join(', ');
+    const conclusionStr = proved.conclusion.map(obj => xpObjectToString(obj, indent)).join(', ');
+    return `${premiseStr} => ${conclusionStr}`;
 }
 
-export function debug_xpFact(fact: xpFact, indent: number = 0): string {
+export function xpFactToString(fact: xpFact, indent: number = 0): string {
     switch (fact.kind) {
         case "object":
-            return debug_xpObject(fact, indent);
+            return xpObjectToString(fact, indent);
         case "proved":
-            return debug_xpProved(fact, indent);
+            return xpProvedToString(fact, indent);
     }
 }
 
 export function log_xpObject(obj: xpObject, label?: string): void {
     const prefix = label ? `[${label}] ` : "";
-    console.log(`${prefix}xpObject:`, debug_xpObject(obj));
+    console.log(`${prefix}xpObject:`, xpObjectToString(obj));
 }
 
 export function log_xpProved(proved: xpProved, label?: string): void {
     const prefix = label ? `[${label}] ` : "";
-    console.log(`${prefix}xpProved:`, debug_xpProved(proved));
+    console.log(`${prefix}xpProved:`, xpProvedToString(proved));
 }
 
 export function log_xpFact(fact: xpFact, label?: string): void {
     const prefix = label ? `[${label}] ` : "";
-    console.log(`${prefix}xpFact:`, debug_xpFact(fact));
+    console.log(`${prefix}xpFact:`, xpFactToString(fact));
 }
 
 export function term_to_xpobject(term: Term): xpObject {
